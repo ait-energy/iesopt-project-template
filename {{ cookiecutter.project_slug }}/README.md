@@ -2,7 +2,7 @@
 
 ## Description
 
-_To be added._
+{{ cookiecutter.short_description }}
 
 ## Setup
 

@@ -1,6 +1,8 @@
 {
     "project_name": "IESopt Project",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
-    "author": "Anonymous"
+    "author": "",
+    "author_email": "",
+    "short_description": ""
   }
   
