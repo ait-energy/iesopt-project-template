@@ -1,0 +1,58 @@
+# ::: -------------------------------------------------------------------- ::: #
+# ::: >>> SECTION | MAIN CONFIGURATION <<<                                 ::: #
+# ::: -------------------------------------------------------------------- ::: #
+config:
+  name:
+    model: {{cookiecutter.project_name}}
+    scenario: Basic
+  # -------------------------------------------------------------------------- #
+  optimization:
+    problem_type: LP
+    snapshots:
+      count: 24
+    solver:
+      name: highs
+  # -------------------------------------------------------------------------- #
+  results:
+    enabled: true
+  # -------------------------------------------------------------------------- #
+  files:
+    data: example.csv
+  # -------------------------------------------------------------------------- #
+  paths:
+    files: files/data
+    results: out/
+    components: files/model
+    templates: files/templates
+
+# ::: -------------------------------------------------------------------- ::: #
+# ::: >>> SECTION | ENERGY CARRIERS <<<                                    ::: #
+# ::: -------------------------------------------------------------------- ::: #
+carriers:
+  electricity: {}
+  gas: {}
+  wind: {}
+  co2: {}
+
+# ::: -------------------------------------------------------------------- ::: #
+# ::: >>> SECTION | MODEL COMPONENTS <<<                                   ::: #
+# ::: -------------------------------------------------------------------- ::: #
+# Uncomment the following lines to load components from CSV files:
+# load_components:
+#   - some_specific_model_file.csv
+
+components:
+  grid:
+    type: Node
+    carrier: electricity
+  
+  market:
+    type: Profile
+    carrier: electricity
+    mode: create
+    cost: 100.0
+  
+  demand:
+    type: Profile
+    carrier: electricity
+    value: 07_demand1_value@data
