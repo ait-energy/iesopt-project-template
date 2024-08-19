@@ -3,7 +3,7 @@
 # ::: -------------------------------------------------------------------- ::: #
 config:
   name:
-    model: {{cookiecutter.project_name}}
+    model: H2 Earth
     scenario: Basic
   # -------------------------------------------------------------------------- #
   optimization:
@@ -30,9 +30,6 @@ config:
 # ::: -------------------------------------------------------------------- ::: #
 carriers:
   electricity: {}
-  gas: {}
-  wind: {}
-  co2: {}
 
 # ::: -------------------------------------------------------------------- ::: #
 # ::: >>> SECTION | MODEL COMPONENTS <<<                                   ::: #
@@ -49,10 +46,12 @@ components:
   market:
     type: Profile
     carrier: electricity
+    node_to: grid
     mode: create
     cost: 100.0
   
   demand:
     type: Profile
     carrier: electricity
+    node_from: grid
     value: 07_demand1_value@data
