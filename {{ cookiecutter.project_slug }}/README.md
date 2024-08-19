@@ -18,4 +18,6 @@ poetry install --no-root
 
 ## Usage
 
-_To be added._
+Make sure you have activated the environment `{{ cookiecutter.project_slug }}`, and then execute the code in `main.py`.
+
+> **Remember:** The first time you execute the `import iesopt` statement, `iesopt` will download and setup the necessary Julia environment, which includes precompiling all dependencies. This process may take a few minutes, but is only required once.
