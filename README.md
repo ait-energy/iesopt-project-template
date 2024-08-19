@@ -19,3 +19,7 @@ python3 -m pip install --user cookiecutter
 ```bash
 cookiecutter gh:ait-energy/IESopt-Cookiecutter-Templates
 ```
+
+**3. Setup a version control system:**
+
+After successfully using the template, immediately setup `git` (e.g., by using `git init`), and - if applicable - also setup a remote repository (e.g., on GitLab, GitHub). This is important to keep track of changes and to collaborate with others.
