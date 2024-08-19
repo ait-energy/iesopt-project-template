@@ -1,6 +1,6 @@
 # IESopt Cookiecutter Templates
 
-To be added.
+This allows setting up pre-defined project structures for IESopt projects.
 
 ## Using this template
 
@@ -23,3 +23,5 @@ cookiecutter gh:ait-energy/IESopt-Cookiecutter-Templates
 **3. Setup a version control system:**
 
 After successfully using the template, immediately setup `git` (e.g., by using `git init`), and - if applicable - also setup a remote repository (e.g., on GitLab, GitHub). This is important to keep track of changes and to collaborate with others.
+
+> Note: The template contains various `.gitkeep` files, which are used to keep empty directories in the repository. These files are not necessary for the project and can be removed if desired.
