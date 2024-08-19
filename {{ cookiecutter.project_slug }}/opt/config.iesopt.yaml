@@ -20,10 +20,10 @@ config:
     data: example.csv
   # -------------------------------------------------------------------------- #
   paths:
-    files: files/data
+    files: files/data/
     results: out/
-    components: files/model
-    templates: files/templates
+    components: files/model/
+    templates: files/templates/
 
 # ::: -------------------------------------------------------------------- ::: #
 # ::: >>> SECTION | ENERGY CARRIERS <<<                                    ::: #
