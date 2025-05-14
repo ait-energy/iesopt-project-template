@@ -1,16 +1,8 @@
-[tool.poetry]
+[project]
 name = "{{ cookiecutter.project_slug }}"
 version = "0.1.0"
 description = "{{ cookiecutter.short_description }}"
 authors = ["{{ cookiecutter.author }} <{{ cookiecutter.author_email }}>"]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-iesopt = "^1.0.1"
-pandas = "^2.2.2"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.12"
+dependencies = []
