@@ -1,27 +1,20 @@
-# IESopt Cookiecutter Templates
+# IESopt Project Template
 
 This allows setting up pre-defined project structures for IESopt projects.
 
 ## Using this template
 
-**1. Installing Cookiecutter:**
+> This requires that `git` and `uv` are installed on your system. Consult the installation instructions for [uv](https://docs.astral.sh/uv/getting-started/installation/) or [git](https://git-scm.com/downloads/windows) if you don't have them installed yet.
 
-Consult the [Cookiecutter documentation](https://cookiecutter.readthedocs.io/en/latest/installation.html) for the most up-to-date installation instructions.
 
-If you have Python (and pip) available, you can install Cookiecutter with the following command:
-
-```bash
-python3 -m pip install --user cookiecutter
-```
-
-**2. Applying the template:**
+Execute the following command in a terminal to create a new project (inside the current working directory) using this template
 
 ```bash
-cookiecutter gh:ait-energy/IESopt-Cookiecutter-Templates
+uvx cookiecutter gh:ait-energy/iesopt-project-template
 ```
 
-**3. Setup a version control system:**
+and answer the questions in the terminal. For example, if you exectute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
 
-After successfully using the template, immediately setup `git` (e.g., by using `git init`), and - if applicable - also setup a remote repository (e.g., on GitLab, GitHub). This is important to keep track of changes and to collaborate with others.
+## Remarks
 
-> Note: The template contains various `.gitkeep` files, which are used to keep empty directories in the repository. These files are not necessary for the project and can be removed if desired.
+The template contains various `.gitkeep` files, which are used to keep empty directories in the repository. These files are not necessary for the project and can be removed if desired.
