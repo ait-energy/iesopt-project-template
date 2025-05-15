@@ -8,19 +8,19 @@ fi
 
 uv add pandas
 
-uv tool install pre-commit --with pre-commit-uv
-uv tool run pre-commit install
-
 uv sync
 
 git init --initial-branch=main
 git add .
 git commit --message "chore(cookiecutter): initial commit" --quiet
 
+uv tool install pre-commit --with pre-commit-uv
+uv tool run pre-commit install
+
 uv run python -c "import iesopt"
 
 git add .
-git commit --message "chore(cookiecutter): initialize iesopt dependencies" --quiet
+git commit --message "chore(cookiecutter): initialize pre-commit and iesopt dependencies" --quiet
 
 echo "IESopt project template setup complete!"
 echo ""
