@@ -16,7 +16,7 @@ uvx cookiecutter gh:ait-energy/iesopt-project-template
 and answer the questions in the terminal. For example, if you execute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
 
 > [!CAUTION]
-> If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste the command above and hit `Enter`.
+> If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste (`Ctrl+V` might not work, you can always right click to paste via the context menu, or try `Shift+Ins`, in the `Git Bash`) the command above and hit `Enter`.
 
 ## Remarks
 
