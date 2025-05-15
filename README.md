@@ -22,11 +22,23 @@ and answer the questions in the terminal. For example, if you execute the comman
 > [!CAUTION]
 > If a popup opens during the setup process asking you which program to use to open some file, please select `Git Bash` and confirm your choice.
 
-### Explanations
+### Explanations & Problems
 
-- **What is the project slug?**: _This is a short abbreviation of the project name, that is used in a few places where spaces, etc., are not allowed. It is usually the same as the project name, but with spaces replaced by underscores and all letters in lowercase._
-- **How can I accept default values?**: _Every question ends in a `(something written here)`, which is the default value. If you want to accept the default value, just press `Enter` without typing anything._
-- **Why does it open a weird `.sh` file in VSCode (or any other editor)?**: _Open the file location of the `.sh` file that VSCode opened, then right-click it, select `Open with...`, then `Choose another app`, and then select `Git Bash`. Make sure to check the box that says `Always use this app to open .sh files` and then click `OK`. This will make sure that `.sh` files are opened with `Git Bash` in the future. After that, remove the folder and start from scratch. This time, it should work without any issues._
+#### Why does it ask for my name / an author?
+
+> This is used to set the author of the project. It is usually your name, but it can be anything you want. This is a part of the standardized `pyproject.toml` file, which controls your environment.
+
+#### What is the project slug?
+
+> This is a short abbreviation of the project name, that is used in a few places where spaces, etc., are not allowed. It is usually the same as the project name, but with spaces replaced by underscores and all letters in lowercase.
+
+#### How can I accept default values?
+
+> Every question ends in a `(something written here)`, which is the default value. If you want to accept the default value, just press `Enter` without typing anything.
+
+#### What if it opens a weird `.sh` file in VSCode (or any other editor)?
+
+> Open the file location of the `.sh` file that VSCode opened, then right-click it, select `Open with...`, then `Choose another app`, and then select `Git Bash`. Make sure to check the box that says `Always use this app to open .sh files` and then click `OK`. This will make sure that `.sh` files are opened with `Git Bash` in the future. After that, remove the folder and start from scratch. This time, it should work without any issues.
 
 ## Connecting to a remote repository
 
