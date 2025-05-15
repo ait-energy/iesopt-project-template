@@ -13,7 +13,7 @@ Execute the following command in a terminal to create a new project (inside the 
 uvx cookiecutter gh:ait-energy/iesopt-project-template
 ```
 
-and answer the questions in the terminal. For example, if you exectute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
+and answer the questions in the terminal. For example, if you execute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
 
 > [!CAUTION]
 > If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste the command above and hit `Enter`.
