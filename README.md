@@ -9,7 +9,7 @@ This allows setting up pre-defined project structures for IESopt projects.
 ## Using this template
 
 > [!CAUTION]
-> If you are using Windows, make sure to CAREFULLY read the specific instructions below BEFORE executing anything!
+> If you are using Windows, make sure to carefully read the specific instructions below before executing anything!
 
 ### Instructions for Windows users
 
