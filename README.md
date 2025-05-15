@@ -9,7 +9,18 @@ This allows setting up pre-defined project structures for IESopt projects.
 ## Using this template
 
 > [!CAUTION]
-> If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste (`Ctrl+V` might not work, you can always right click to paste via the context menu, or try `Shift+Ins`, in the `Git Bash`) the command above and hit `Enter`.
+> If you are using Windows, make sure to CAREFULLY read the specific instructions below BEFORE executing anything!
+
+### Instructions for Windows users
+
+1. You need to execute the command in your `Git Bash`. Do so by right-clicking inside your `dev` folder (the one where you keep all your projects) and selecting `Open Git Bash here`.
+2. You most likely cannot copy-paste there; you can either right click into the shell and paste via the context menu, or try `Shift+Ins`.
+3. If a popup opens during the setup process asking you which program to use to open some file, please select `Git Bash` and confirm your choice.
+4. If it "randomly" launches VSCode and opens a `.sh` file, please follow the instructions below (in the _"Explanations & Problems"_ section) to fix this issue (which occurs if you've set VSCode as default choice for `.sh` files).
+
+Now you should be ready to follow the actual instructions below.
+
+### Creating a new project
 
 Execute the following command in a terminal to create a new project (inside the current working directory) using this template
 
@@ -18,9 +29,6 @@ uvx cookiecutter gh:ait-energy/iesopt-project-template
 ```
 
 and answer the questions in the terminal. For example, if you execute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
-
-> [!CAUTION]
-> If a popup opens during the setup process asking you which program to use to open some file, please select `Git Bash` and confirm your choice.
 
 ### Explanations & Problems
 
