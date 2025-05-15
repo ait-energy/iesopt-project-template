@@ -13,11 +13,14 @@ uv tool run pre-commit install
 
 uv sync
 
-uv run python -c "import iesopt"
-
 git init --initial-branch=main
 git add .
 git commit --message "chore(cookiecutter): initial commit" --quiet
+
+uv run python -c "import iesopt"
+
+git add .
+git commit --message "chore(cookiecutter): initialize iesopt dependencies" --quiet
 
 echo "IESopt project template setup complete!"
 echo ""
