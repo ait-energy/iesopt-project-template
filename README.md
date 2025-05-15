@@ -18,6 +18,17 @@ and answer the questions in the terminal. For example, if you execute the comman
 > [!CAUTION]
 > If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste (`Ctrl+V` might not work, you can always right click to paste via the context menu, or try `Shift+Ins`, in the `Git Bash`) the command above and hit `Enter`.
 
+## Connecting to a remote repository
+
+If you want to connect your local project to a remote repository, you can do so by executing the following command in the terminal:
+
+```bash
+git remote add origin <your-repo-url>
+git push -u origin main
+```
+
+This can be used to push your local contents, e.g., to an internal/private GitLab repository. `<your-repo-url>` should be replaced with the URL of your remote repository ("the one that you would normally use to clone from").
+
 ## Remarks
 
 The template contains various `.gitkeep` files, which are used to keep empty directories in the repository. These files are not necessary for the project and can be removed if desired.
