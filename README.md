@@ -27,7 +27,7 @@ git remote add origin <your-repo-url>
 git push -u origin main
 ```
 
-This can be used to push your local contents, e.g., to an internal/private GitLab repository. `<your-repo-url>` should be replaced with the URL of your remote repository ("the one that you would normally use to clone from").
+This can be used to push your local contents, e.g., to an internal/private GitLab repository. `<your-repo-url>` should be replaced with the URL of your remote repository (= _"the one that you would normally use to clone from"_).
 
 ## Remarks
 
