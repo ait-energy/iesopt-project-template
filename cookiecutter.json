@@ -9,7 +9,7 @@
   "__prompts__": {
     "project_name": "Select project name",
     "project_slug": "Select project slug",
-    "author": "Enter your name",
+    "author": "Enter name of main author",
     "short_description": "Enter a short project description",
     "iesopt_version": "Select IESopt version",
     "default_config": "Generate a `config.iesopt.yaml` file; options: no/minimal/full or name of example (e.g., 01_basic_single_node)",
