@@ -30,7 +30,7 @@ uvx cookiecutter gh:ait-energy/iesopt-project-template
 
 and answer the questions in the terminal. For example, if you execute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
 
-### Explanations & Problems
+## Explanations & Problems
 
 #### Why does it ask for my name / an author?
 
