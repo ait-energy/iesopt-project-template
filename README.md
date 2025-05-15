@@ -2,10 +2,14 @@
 
 This allows setting up pre-defined project structures for IESopt projects.
 
-## Using this template
-
 > [!IMPORTANT]
 > This requires that `git` and `uv` are installed on your system. Consult the installation instructions for [uv](https://docs.astral.sh/uv/getting-started/installation/) or [git](https://git-scm.com/downloads/windows) if you don't have them installed yet.
+
+
+## Using this template
+
+> [!CAUTION]
+> If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste (`Ctrl+V` might not work, you can always right click to paste via the context menu, or try `Shift+Ins`, in the `Git Bash`) the command above and hit `Enter`.
 
 Execute the following command in a terminal to create a new project (inside the current working directory) using this template
 
@@ -16,7 +20,13 @@ uvx cookiecutter gh:ait-energy/iesopt-project-template
 and answer the questions in the terminal. For example, if you execute the command in `C:\Users\username\dev`, the new project will automatically be created in `C:\Users\username\dev\your_project_name`.
 
 > [!CAUTION]
-> If you are using Windows, make sure to execute the above command in your `Git Bash`, by right-clicking inside your `dev` folder and selecting `Open Git Bash here`. Then just copy-paste (`Ctrl+V` might not work, you can always right click to paste via the context menu, or try `Shift+Ins`, in the `Git Bash`) the command above and hit `Enter`.
+> If a popup opens during the setup process asking you which program to use to open some file, please select `Git Bash` and confirm your choice.
+
+### Explanations
+
+- **What is the project slug?**: _This is a short abbreviation of the project name, that is used in a few places where spaces, etc., are not allowed. It is usually the same as the project name, but with spaces replaced by underscores and all letters in lowercase._
+- **How can I accept default values?**: _Every question ends in a `(something written here)`, which is the default value. If you want to accept the default value, just press `Enter` without typing anything._
+- **Why does it open a weird `.sh` file in VSCode (or any other editor)?**: _Open the file location of the `.sh` file that VSCode opened, then right-click it, select `Open with...`, then `Choose another app`, and then select `Git Bash`. Make sure to check the box that says `Always use this app to open .sh files` and then click `OK`. This will make sure that `.sh` files are opened with `Git Bash` in the future. After that, remove the folder and start from scratch. This time, it should work without any issues._
 
 ## Connecting to a remote repository
 
