@@ -3,7 +3,7 @@
 This allows setting up pre-defined project structures for IESopt projects.
 
 > [!IMPORTANT]
-> This requires that `git` and `uv` are installed on your system. Consult the installation instructions for [uv](https://docs.astral.sh/uv/getting-started/installation/) or [git](https://git-scm.com/downloads/windows) if you don't have them installed yet.
+> This requires that `git` and `uv` are installed on your system. Consult the installation instructions for [uv](https://docs.astral.sh/uv/getting-started/installation/) or [git](https://git-scm.com/downloads/) if you don't have them installed yet.
 
 
 ## Using this template
