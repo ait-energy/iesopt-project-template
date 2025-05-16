@@ -1,8 +1,8 @@
 # Meeting Minutes
 
-## 14.05.2025 - Meeting on IESopt project template and IES conventions for IESopt
+# 14.05.2025 - Meeting on IESopt project template and IES conventions for IESopt
 
-### IESopt project template
+## IESopt project template
 #### Goal
 > Create an IESopt project template which allows for easy initialization and set up of a new IESopt project through. This template should include for example the default folder structure, uv environment set up, and the option to also have example config files and templates.
 
@@ -26,21 +26,21 @@
 - Currently only provided for python wrapper, not for julia
 
 
-### IES Conventions for IESopt templates
+## IES conventions for IESopt templates
 #### Provide default values? 
 > No because it is easy for people to make mistakes 
 
 #### Convention for template names:
 > Use pascal case - capitals for the first letter of words, no underscores, start with the more general type and then add specialization (i.e. CHPBackpressure) this allows for easy alphabetic ordering and sorting of templates.
 
-#### Concentions for template parameters
+#### Conventions for template parameters
 - parameter names are all in lower case letters with underscores for spaces
 - operational costs: expressive and also starting with more general and then adding specializatiion
     - For example: opex_variable, opex_fixed 
 - Switch to 'power' to describe capacity of technology
-    - power
-    - power_lb
-    - power_ub
+    - power (describes existing power)
+    - power_lb (lower bound for investment)
+    - power_ub (upper bound for investment)
     - (for something like CO2 or water, thien it is custom -- if power doesn't fit right, then donÄt use it)
 - For connecting nodes: 
     - fuel_from, heat_to
@@ -50,7 +50,7 @@
 - Have mandatory documentation for the templates that we all use
 - Have validation too
 
-### IES Convention for Drawing IESopt system diagrams
+## IES Convention for drawing IESopt system diagrams
 #### Goal
 > Clearly defined drawing convention among  IES IESopt users for consistency and clarity across IESopt projects, facillitating collaboration and communication:
 
@@ -60,21 +60,21 @@
 - Shapes are used to identify component types (consistent ancross projects)
 - Colors are used to identify energy carriers or other additional information
 
-#### Diagramming tools
-- Use [draw.io](https://app.diagrams.net/) 
+#### Diagramming tool
+- [draw.io](https://app.diagrams.net/) 
 
 #### Conventions for shapes per core component
-- Profile: diamond
-- Node: oval (rectangle with fully rounded edges)
+- **Profile**: diamond
+- **Node**: oval (rectangle with fully rounded edges)
     - stateful node: filled in
-- Unit: hexagon
-- Connection:Arrow that is not dashed and labelled
-- Energy flows: dashed arrows
-- Decision: in automatic diagrams circle with question mark, in customizex diagram, italic text alongside/with the component the decision is relevant for
-- template: shape that is like a rectange with a flat top and squiggly line at the bottom
+- **Unit**: hexagon
+- **Connection**:Arrow that is not dashed and labelled
+- **Energy flows**: dashed arrows
+- **Decision**: in automatic diagrams circle with question mark, in customizex diagram, italic text alongside/with the component the decision is relevant for
+- **Template**: shape that is like a rectange with a flat top and squiggly line at the bottom
 - (Please refer to example diagram)
 
-### To (maybe) be discussed further
+## To be discussed further
 - default colors for main energy carriers
 - naming conventions for components
 - excel template for input data request from project partners and clients
