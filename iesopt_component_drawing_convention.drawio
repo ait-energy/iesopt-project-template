@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0" version="27.0.5">
+  <diagram id="BiPBc6u2D9EUQqRV1XMm" name="Seite-1">
+    <mxGraphModel dx="940" dy="585" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5HEobF-XGD24owv6qbIT-1" value="Node" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;" vertex="1" parent="1">
+          <mxGeometry x="80" y="281" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-2" value="Stateful Node" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="210" y="281" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-3" value="Profile" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-4" value="Template" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="561" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-5" value="Unit" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="201" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-6" value="Connection" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="500" as="sourcePoint" />
+            <mxPoint x="200" y="500" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-7" value="Energy flow" style="endArrow=classic;html=1;rounded=0;dashed=1;dashPattern=8 8;" edge="1" parent="1">
+          <mxGeometry y="10" width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="541" as="sourcePoint" />
+            <mxPoint x="200" y="541" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-8" value="&lt;font style=&quot;font-size: 32px;&quot;&gt;?&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="110.5" y="360" width="59" height="59" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-9" value="Unit&lt;div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;i style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Decision&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-10" value="&lt;i&gt;Decision (two variants: left for automatically generated diagrams, right for user-created )&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="430" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-11" value="IESopt component drawing convetnion" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="30" width="530" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5HEobF-XGD24owv6qbIT-12" value="&lt;i&gt;As of 15.05.2025&lt;/i&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="230" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
