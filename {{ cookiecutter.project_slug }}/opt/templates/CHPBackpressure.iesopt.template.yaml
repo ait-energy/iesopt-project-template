@@ -1,0 +1,140 @@
+# # Custom Combined heat and power unit
+
+# A custom combinde haeat and power unit that consumes a defined fuel and produces heat and electricity.
+# The unit can either have a fixed  capacity, the capacity can be determined by an investment decision,
+# or have an existing capacity with additional possibility for investment.
+# Variable OPEX, fixed OPEX, and CAPEX can also be defined if desired.
+
+# ## Parameters
+# - `capacity_existing`: The capacity of the CHP that is already installed (can be 0).
+# - `capacity_invest_min`: The minimum capacity of the CHP can be installed in additiona to existing capacity (can be 0).
+# - `capacity_invest_max`: The maximum ncapacity of the CHP  that can be installed in additiona to existing capacity (can be 0).
+# - `fuel`: The fuel for the CHP (e.g. 'biomass' or 'electricity').
+# - `efficiency`: The efficiency of the CHP (value between 0 and 1).
+# - `fuel_from`: The `Node` that this CHP is connected to for fuel input.
+# - `heat_to`: The `Node` that this CHP is connected to for heat output.
+# - `variable_opex`: (OPTIONAL) Variable OPEX other than fuel costs (€/unit energy), default is 0.
+# - `fixed_opex`: (OPTIONAL) Fixed OPEX (€/unit capacity/time period modelled), default is 0.
+# - `capex`: (OPTIONAL) CAPEX (€/unit capacity), default is 0.
+
+
+# ## Components
+# _to be added_
+
+# ## Usage
+# _to be added_
+
+# ## Details
+# _to be added_
+
+
+parameters:
+  thermal_capacity_existing: null
+  thermal_capacity_invest_min: null
+  thermal_capacity_invest_max: null
+  fuel: null 
+  el_efficiency: null 
+  fuel_from: null
+  heat_to: null
+  electricity_to: null
+  variable_opex: 0
+  fixed_opex: 0
+  capex: 0
+  c_b_coefficient: null
+  c_v_coefficient: null #TODO figure out how to include this and account for different operating modes
+  _capacity: null
+  _invest: null
+  _existing_capacity_present: null
+
+components:
+  unit:
+    type: Unit
+    inputs: {<fuel>: <fuel_from>}
+    outputs: {heat: <heat_to>, electricity: <electricity_to>}
+    conversion: 1 <fuel> -> <el_efficiency> electricity + <el_efficiency>/<c_b_coefficient> heat 
+    marginal_cost: <variable_opex> per out:heat 
+    capacity: <_capacity> out:heat
+
+  existing_capacity:
+    type: Decision
+    enabled: <_existing_capacity_present>
+    mode: fixed
+    fixed_value: <thermal_capacity_existing>
+    cost: <fixed_opex>
+
+  invest_decision:
+    type: Decision
+    enabled: <_invest>
+    lb: <thermal_capacity_invest_min>
+    ub: <thermal_capacity_invest_max>
+    cost: <capex> + <fixed_opex>
+
+functions:
+  validate: |
+    # Prepare some helper variables to make the code afterwards more readable.
+    capacity_existing = this.get("thermal_capacity_existing")
+    capacity_invest_min = this.get("thermal_capacity_invest_min")
+    capacity_invest_max = this.get("thermal_capacity_invest_max")
+    efficiency = this.get("el_efficiency")
+
+    # Check if `capacity_existing`, `capacity_invest_min`, and `capacity_invest_max` are nothing or numbers and non-negative.
+    @check isnothing(capacity_existing) || (capacity_existing isa Number && capacity_existing >= 0)
+    @check isnothing(capacity_invest_min) || (capacity_invest_min isa Number && capacity_invest_min >= 0)
+    @check isnothing(capacity_invest_max) || (capacity_invest_max isa Number && capacity_invest_max >= 0)
+
+    # Check that not all three capacity values are 0
+    sum_value = (capacity_existing === nothing ? 0 : capacity_existing) + 
+                (capacity_invest_min === nothing ? 0 : capacity_invest_min) + 
+                (capacity_invest_max === nothing ? 0 : capacity_invest_max)
+    @check (sum_value > 0)
+
+    # Check that not all three capacity values are `nothing`
+    @check (capacity_existing !== nothing || capacity_invest_min !== nothing || capacity_invest_max !== nothing)
+
+    # Check if `capacity_invest_min` and `capacity_invest_max` are both `nothing` or a number and `capacity_invest_max` >= `capacity_invest_min`
+    @check (isnothing(capacity_invest_min) && isnothing(capacity_invest_max)) || (capacity_invest_min isa Number && capacity_invest_max isa Number && capacity_invest_max >= capacity_invest_min)
+
+    # Check if fuel is a String
+    @check this.get("fuel") isa String
+
+    # Check if efficiency is between 0 and 1 
+    @check (efficiency isa Number && efficiency >= 0 && efficiency <= 1)
+
+    # Check if the `Node` parameters are `String`s.
+    @check this.get("fuel_from") isa String
+    @check this.get("heat_to") isa String
+
+    # Check if `variable_opex`, `fixed_opex`, `capex` are numbers and non-negative.
+    @check (this.get("variable_opex") isa Number && this.get("variable_opex") >= 0)
+    @check (this.get("fixed_opex") isa Number && this.get("fixed_opex") >= 0)
+    @check (this.get("capex") isa Number && this.get("capex") >= 0)
+
+  prepare: |
+    # Prepare some helper variables to make the code afterwards more readable.
+    capacity_existing = this.get("thermal_capacity_existing")
+    capacity_invest_min = this.get("thermal_capacity_invest_min")
+    capacity_invest_max = this.get("thermal_capacity_invest_max")
+
+    # Determine if investment should be enabled, and set the parameter (used to enable `invest_decision`).
+    invest = !isnothing(capacity_invest_max) && 
+             !isnothing(capacity_invest_min) &&
+             (capacity_invest_max + capacity_invest_min) > 0 && 
+             capacity_invest_max >= capacity_invest_min
+    this.set("_invest", invest)
+
+    # Determine if there is an existing installed capacity, (used to enable existing_capacity)
+    existing_capacity_greater_than_zero = !isnothing(capacity_existing) && capacity_existing > 0
+    this.set("_existing_capacity_present", existing_capacity_greater_than_zero)
+
+    myself = this.get("self")
+
+    if invest && existing_capacity_greater_than_zero
+        # Set the capacity to the size of existing_capacity plus the invest_decision variable.
+        this.set("_capacity", "$(myself).invest_decision:value + $(myself).existing_capacity:value")
+    elseif invest
+        # Set the capacity to the size of the invest_decision variable.
+        this.set("_capacity", "$(myself).invest_decision:value")
+    else
+        # Set the capacity to the  size of the existing_capacity variable. 
+        this.set("_capacity", "$(myself).existing_capacity:value")
+    end
