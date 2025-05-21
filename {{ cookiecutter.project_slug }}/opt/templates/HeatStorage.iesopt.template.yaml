@@ -1,24 +1,55 @@
+# # Custom (Heat) Storage
+
+# A custom (heat) storage which can have an existing sotrage capacity, capacity that can be invested in (defined by a lower and upper bound),
+# or both. The storage can be charged and discharged with a defined efficiency, and the charge/discharge capacity can be defined as either absolute 
+# or per storage capacity. Fixed OPEX and CAPEX can also be defined if desired.
+
+# ## Parameters
+# - `storage_capacity`: existing storage capacity (already installed, can be 0)
+# - `storage_capacity_lb`: storage capacity lower bound, minimum amount of storage capacity that can be invested in (can be 0)
+# - `storage_capacity_ub`: storage capacity upper bound, minimum amount of storage capacity that can be invested in (can be 0)
+# - `charge_efficiency`: (OPTIONAL) efficiency of charging storage (value between 0 and 1), default is 1 (assume no losses)
+# - `discharge_efficiency`: OPTIONAL) efficiency of charging storage (value between 0 and 1), default is 1 (assume no losses)
+# - `state_cyclic_value`: (OPTIONAL) defines relationship between storage state at the start and end of simulation (geq: final state >= initial state, eq: final state = initial state, default: geq)
+# - `charge_power_absolute`: absolute charging power in power units               
+# - `discharge_power_absolute`: solute discharging power in power units                      
+# - `charge_power_per_storage_capacity`: charging power per installed storage capacity  
+# - `discharge_power_per_storage_capacity`: discharging power per installed storage capacity
+# - `opex_fixed`: (OPTIONAL) Fixed OPEX (€/unit storage capacity/time period modelled), default is 0.
+# - `capex`: (OPTIONAL) CAPEX (€/unit storage capacity), default is 0.
+
+
+# ## Components
+# _to be added_
+
+# ## Usage
+# _to be added_
+
+# ## Details
+# _to be added_
+
+
 parameters:
   node_in: null
   node_out: null 
-  storage_capacity_existing: null
-  storage_capacity_invest_min: null
-  storage_capacity_invest_max: null
+  storage_capacity: null
+  storage_capacity_lb: null
+  storage_capacity_ub: null
   _storage_capacity: null
   _existing_capacity_present: null
   _invest: null
-  fixed_opex: 0 
+  opex_fixed: 0 
   capex: 0 
   carrier: heat                     # Default: heat, however can utilize other carriers as well
   charge_efficiency: 1              # Default assumption: no losses
   discharge_efficiency: 1           # Default assumption: no losses
   state_cyclic_value: geq           # Default assumption: final storage state >= initial storage state
-  charge_capacity_absolute: null               
-  discharge_capacity_absolute: null           
-  charge_capacity_per_storage_capacity: null  
-  discharge_capacity_per_storage_capacity: null
-  _charge_capacity: null
-  _discharge_capacity: null
+  charge_power_absolute: null               
+  discharge_power_absolute: null           
+  charge_power_per_storage_capacity: null  
+  discharge_power_per_storage_capacity: null
+  _charge_power: null
+  _discharge_power: null
 
 components:
   store:
@@ -33,61 +64,61 @@ components:
     type: Decision
     enabled: <_existing_capacity_present>
     mode: fixed
-    fixed_value: <storage_capacity_existing>
-    cost: <fixed_opex>
+    fixed_value: <storage_capacity>
+    cost: <opex_fixed>
 
   invest_decision:
     type: Decision
     enabled: <_invest>
-    lb: <storage_capacity_invest_min>
-    ub: <storage_capacity_invest_max>
-    cost: <capex> + <fixed_opex>
+    lb: <storage_capacity_lb>
+    ub: <storage_capacity_ub>
+    cost: <capex> + <opex_fixed>
 
   charge: 
     type: Unit
     inputs: {<carrier>: <node_in>}
     outputs: {<carrier>: <self>.store}
     conversion: 1 <carrier> -> <charge_efficiency> <carrier>    
-    capacity: <_charge_capacity> in:<carrier>
+    capacity: <_charge_power> in:<carrier>
     marginal_cost: 1e-6 per out:<carrier>         # disuades storage from charging/discharging at the same time
   discharge: 
     type: Unit
     inputs: {<carrier>: <self>.store}
     outputs: {<carrier>: <node_out>}
     conversion: 1 <carrier> -> <discharge_efficiency> <carrier>  
-    capacity: <_discharge_capacity> out:<carrier> 
+    capacity: <_discharge_power> out:<carrier> 
     marginal_cost: 1e-6 per out:<carrier>       # disuades storage from charging/discharging at the same time
 
 functions:
   validate: |
     # Prepare some helper variables to make the code afterwards more readable.
-    capacity_existing = this.get("storage_capacity_existing")
-    capacity_invest_min = this.get("storage_capacity_invest_min")
-    capacity_invest_max = this.get("storage_capacity_invest_max")
+    storage_capacity = this.get("storage_capacity")
+    storage_capacity_lb = this.get("storage_capacity_lb")
+    storage_capacity_ub = this.get("storage_capacity_ub")
     charge_efficiency = this.get("charge_efficiency")
     discharge_efficiency = this.get("discharge_efficiency")
 
-    charge_capacity_absolute = this.get("charge_capacity_absolute") 
-    discharge_capacity_absolute = this.get("discharge_capacity_absolute") 
-    charge_capacity_per_storage_capacity = this.get("charge_capacity_per_storage_capacity") 
-    discharge_capacity_per_storage_capacity = this.get("discharge_capacity_per_storage_capacity") 
+    charge_power_absolute = this.get("charge_power_absolute") 
+    discharge_power_absolute = this.get("discharge_power_absolute") 
+    charge_power_per_storage_capacity = this.get("charge_power_per_storage_capacity") 
+    discharge_power_per_storage_capacity = this.get("discharge_power_per_storage_capacity") 
 
-    # Check if `capacity_existing`, `capacity_invest_min`, and `capacity_invest_max` are nothing or numbers and non-negative.
-    @check isnothing(capacity_existing) || (capacity_existing isa Number && capacity_existing >= 0)
-    @check isnothing(capacity_invest_min) || (capacity_invest_min isa Number && capacity_invest_min >= 0)
-    @check isnothing(capacity_invest_max) || (capacity_invest_max isa Number && capacity_invest_max >= 0)
+    # Check if `storage_capacity`, `storage_capacity_lb`, and `storage_capacity_ub` are nothing or numbers and non-negative.
+    @check isnothing(storage_capacity) || (storage_capacity isa Number && storage_capacity >= 0)
+    @check isnothing(storage_capacity_lb) || (storage_capacity_lb isa Number && storage_capacity_lb >= 0)
+    @check isnothing(storage_capacity_ub) || (storage_capacity_ub isa Number && storage_capacity_ub >= 0)
 
     # Check that not all three p_nom values are 0
-    sum_value = (capacity_existing === nothing ? 0 : capacity_existing) + 
-                (capacity_invest_min === nothing ? 0 : capacity_invest_min) + 
-                (capacity_invest_max === nothing ? 0 : capacity_invest_max)
+    sum_value = (storage_capacity === nothing ? 0 : storage_capacity) + 
+                (storage_capacity_lb === nothing ? 0 : storage_capacity_lb) + 
+                (storage_capacity_ub === nothing ? 0 : storage_capacity_ub)
     @check (sum_value > 0)
 
     # Check that not all three p_nom values are `nothing`
-    @check (capacity_existing !== nothing || capacity_invest_min !== nothing || capacity_invest_max !== nothing)
+    @check (storage_capacity !== nothing || storage_capacity_lb !== nothing || storage_capacity_ub !== nothing)
 
-    # Check if `capacity_invest_min` and `capacity_invest_max` are both `nothing` or a number and `capacity_invest_max` >= `capacity_invest_min`
-    @check (isnothing(capacity_invest_min) && isnothing(capacity_invest_max)) || (capacity_invest_min isa Number && capacity_invest_max isa Number && capacity_invest_max >= capacity_invest_min)
+    # Check if `storage_capacity_lb` and `storage_capacity_ub` are both `nothing` or a number and `storage_capacity_ub` >= `storage_capacity_lb`
+    @check (isnothing(storage_capacity_lb) && isnothing(storage_capacity_ub)) || (storage_capacity_lb isa Number && storage_capacity_ub isa Number && storage_capacity_ub >= storage_capacity_lb)
 
     # Check if the `Node`, `Carrier` and `State cyclic` parameters are `String`s.
     @check this.get("node_in") isa String
@@ -95,45 +126,43 @@ functions:
     @check this.get("carrier") isa String
     @check this.get("state_cyclic_value") isa String
 
-    # Check if `fixed_opex` and `capex` are numbers and non-negative.
-    @check (this.get("fixed_opex") isa Number && this.get("fixed_opex") >= 0)
+    # Check if `opex_fixed` and `capex` are numbers and non-negative.
+    @check (this.get("opex_fixed") isa Number && this.get("opex_fixed") >= 0)
     @check (this.get("capex") isa Number && this.get("capex") >= 0)
     
     # check that charge and discharge efficiency are between 0 and 1 
     @check (charge_efficiency isa Number && charge_efficiency >= 0 && charge_efficiency <= 1)
     @check (discharge_efficiency isa Number && discharge_efficiency >= 0 && discharge_efficiency <= 1)
 
-    # Check if charge/discharge cpacity parameters are nothing or numbers and non-negative.
-    @check isnothing(charge_capacity_absolute) || (charge_capacity_absolute isa Number && charge_capacity_absolute >= 0)
-    @check isnothing(discharge_capacity_absolute) || (discharge_capacity_absolute isa Number && discharge_capacity_absolute >= 0)
-    @check isnothing(charge_capacity_per_storage_capacity) || (charge_capacity_per_storage_capacity isa Number && charge_capacity_per_storage_capacity >= 0)
-    @check isnothing(discharge_capacity_per_storage_capacity) || (discharge_capacity_per_storage_capacity isa Number && discharge_capacity_per_storage_capacity >= 0)
+    # Check if charge/discharge power parameters are nothing or numbers and non-negative.
+    @check isnothing(charge_power_absolute) || (charge_power_absolute isa Number && charge_power_absolute >= 0)
+    @check isnothing(discharge_power_absolute) || (discharge_power_absolute isa Number && discharge_power_absolute >= 0)
+    @check isnothing(charge_power_per_storage_capacity) || (charge_power_per_storage_capacity isa Number && charge_power_per_storage_capacity >= 0)
+    @check isnothing(discharge_power_per_storage_capacity) || (discharge_power_per_storage_capacity isa Number && discharge_power_per_storage_capacity >= 0)
 
-    # Check that charge is defined either as absolute or per storage capacity
-    @check isnothing(charge_capacity_absolute) != isnothing(charge_capacity_per_storage_capacity)
-
-    # Check that charge is defined either as absolute or per storage capacity
-    @check isnothing(discharge_capacity_absolute) != isnothing(discharge_capacity_per_storage_capacity)
+    # Check that charge and discharge are defined either as absolute or per storage capacity
+    @check isnothing(charge_power_absolute) != isnothing(charge_power_per_storage_capacity)
+    @check isnothing(discharge_power_absolute) != isnothing(discharge_power_per_storage_capacity)
 
   prepare: |
     # Prepare some helper variables to make the code afterwards more readable.
-    capacity_existing = this.get("storage_capacity_existing")
-    capacity_invest_min = this.get("storage_capacity_invest_min")
-    capacity_invest_max = this.get("storage_capacity_invest_max")
-    charge_capacity_absolute = this.get("charge_capacity_absolute") 
-    discharge_capacity_absolute = this.get("discharge_capacity_absolute") 
-    charge_capacity_per_storage_capacity = this.get("charge_capacity_per_storage_capacity") 
-    discharge_capacity_per_storage_capacity = this.get("discharge_capacity_per_storage_capacity") 
+    storage_capacity = this.get("storage_capacity")
+    storage_capacity_lb = this.get("storage_capacity_lb")
+    storage_capacity_ub = this.get("storage_capacity_ub")
+    charge_power_absolute = this.get("charge_power_absolute") 
+    discharge_power_absolute = this.get("discharge_power_absolute") 
+    charge_power_per_storage_capacity = this.get("charge_power_per_storage_capacity") 
+    discharge_power_per_storage_capacity = this.get("discharge_power_per_storage_capacity") 
     
     # Determine if investment should be enabled, and set the parameter (used to enable `invest_decision`).
-    invest = !isnothing(capacity_invest_max) && 
-             !isnothing(capacity_invest_min) &&
-             (capacity_invest_max + capacity_invest_min) > 0 && 
-             capacity_invest_max >= capacity_invest_min
+    invest = !isnothing(storage_capacity_ub) && 
+             !isnothing(storage_capacity_lb) &&
+             (storage_capacity_ub + storage_capacity_lb) > 0 && 
+             storage_capacity_ub >= storage_capacity_lb
     this.set("_invest", invest)
 
     # Determine if there is an existing installed capacity, (used to enable existing_capacity)
-    existing_capacity_greater_than_zero = !isnothing(capacity_existing) && capacity_existing > 0
+    existing_capacity_greater_than_zero = !isnothing(storage_capacity) && storage_capacity > 0
     this.set("_existing_capacity_present", existing_capacity_greater_than_zero)
 
     myself = this.get("self")
@@ -150,25 +179,25 @@ functions:
     end
 
     # Define charge capacity
-    absolute_charge_capacity_defined = !isnothing(charge_capacity_absolute)
-    specific_charge_capacity_defined = !isnothing(charge_capacity_per_storage_capacity)
+    absolute_charge_power_defined = !isnothing(charge_power_absolute)
+    specific_charge_power_defined = !isnothing(charge_power_per_storage_capacity)
     _storage_capacity = this.get("_storage_capacity")
 
-    if absolute_charge_capacity_defined
-        this.set("_charge_capacity",charge_capacity_absolute)
+    if absolute_charge_power_defined
+        this.set("_charge_power",charge_power_absolute)
     else
-        this.set("_charge_capacity", "$(charge_capacity_per_storage_capacity)*($(_storage_capacity))")
+        this.set("_charge_power", "$(charge_power_per_storage_capacity)*($(_storage_capacity))")
     end
 
     # define discharge capacity
-    absolute_discharge_capacity_defined = !isnothing(discharge_capacity_absolute)
-    specific_discharge_capacity_defined = !isnothing(discharge_capacity_per_storage_capacity)
+    absolute_discharge_power_defined = !isnothing(discharge_power_absolute)
+    specific_discharge_power_defined = !isnothing(discharge_power_per_storage_capacity)
     _storage_capacity = this.get("_storage_capacity")
 
-    if absolute_discharge_capacity_defined
-        this.set("_discharge_capacity", discharge_capacity_absolute)
+    if absolute_discharge_power_defined
+        this.set("_discharge_power", discharge_power_absolute)
     else
-        this.set("_discharge_capacity", "$(discharge_capacity_per_storage_capacity)*($(_storage_capacity))")
+        this.set("_discharge_power", "$(discharge_power_per_storage_capacity)*($(_storage_capacity))")
     end
 
 

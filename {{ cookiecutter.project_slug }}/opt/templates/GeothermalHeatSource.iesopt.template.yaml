@@ -13,27 +13,27 @@
 # ### Deep geothermal
 # - heat_to: The Node that the deep geothermal is connected to for heat output.
 # - electricity_from: The Node that the deep geothermal is connected to for electricity input.
-# - capacity_existing: existing geothermal capacity (already installed, can be 0)
-# - capacity_invest_min: the minimum capacity that can be installed in addition to existing capacity (can be 0, note: if greater than 0 this capacity will definitely be invested in).
-# - capacity_invest_max: The capacity that can be installed in addition to existing capacity (can be 0).
-# - el_for_pumping: electricity share required for pumping as ratio of energy output (DEA says it is 2-10%)
-# - variable_opex: (OPTIONAL) variable OPEX other than electricitycpsts (€/heat output of geothermal), default is 0.
-# - fixed_opex: (OPTIONAL) Fixed OPEX (€/unit capacity/year), default is 0.
+# - power: existing geothermal capacity (already installed, can be 0)
+# - power_lb: the minimum capacity that can be installed in addition to existing capacity (can be 0, note: if greater than 0 this capacity will definitely be invested in).
+# - power_ub: The capacity that can be installed in addition to existing capacity (can be 0).
+# - electricity_for_pumping: electricity share required for pumping as ratio of energy output (DEA says it is 2-10%)
+# - opex_variable: (OPTIONAL) variable OPEX other than electricitycpsts (€/heat output of geothermal), default is 0.
+# - opex_fixed: (OPTIONAL) Fixed OPEX (€/unit capacity/year), default is 0.
 # - capex: (OPTIONAL) CAPEX (€/unit capacity), default is 0.
 
 # ### Heat exchanger (between deep geothermal and district heating)
 # - heat_exchanger_ratio_to_dh: ratio of heat flowing from deep geothermal directly to district heating, 0 when geothermal temperature < DH temperature
 # - heat_exchanger_ratio_to_return_flow: ratio of heat flowing from deep geothermal to return flow (and possibly return flow HP), 0 when geothermal temperature < DH temperature
-# - heat_exchanger_variable_opex:(OPTIONAL) variable OPEX or heat excahnger(€/heat output), default is 0.
+# - heat_exchanger_opex_variable:(OPTIONAL) variable OPEX or heat excahnger(€/heat output), default is 0.
 
 # ### Return flow heat pump
-# - return_flow_hp_existing_capacity: The nominal power (electricity) of the heat pump that is already installed (can be 0).
-# - return_flow_hp_min_capacity_to_invest: The minimum nominal power (electricity) of the return flow heat pump that can be installed in addition to existing capacity (can be 0, note: if greater than 0 this capacity will definitely be invested).
-# - return_flow_hp_max_capacity_to_invest: The maximum nominal power (electricity) of the return flow heat pump that can be installed in addition to existing capacity (can be 0).
+# - return_flow_hp_power: The nominal power (electric) of the heat pump that is already installed (can be 0).
+# - return_flow_hp_power_lb: The minimum nominal power (electric) of the return flow heat pump that can be installed in addition to existing capacity (can be 0, note: if greater than 0 this capacity will definitely be invested).
+# - return_flow_hp_power_ub: The maximum nominal power (electric) of the return flow heat pump that can be installed in addition to existing capacity (can be 0).
 # - return_flow_hp_cop: The coefficient of performance of the return flow heat pump.
 # - return_flow_hp_cop_min_1: The coefficient of performance of the heat pump minus 1 (needed when you also have heat from).
-# - return_flow_hp_variable_opex: (OPTIONAL) Variable OPEX other than electricity costs of the return flow heat pump (€/unit energy), default is 0.
-# - return_flow_hp_fixed_opex: (OPTIONAL) Fixed OPEX of the return flow heat pump (€/unit power/year), default is 0.
+# - return_flow_hp_opex_variable: (OPTIONAL) Variable OPEX other than electricity costs of the return flow heat pump (€/unit energy), default is 0.
+# - return_flow_hp_opex_fixed: (OPTIONAL) Fixed OPEX of the return flow heat pump (€/unit power/year), default is 0.
 # - return_flow_hp_capex: (OPTIONAL) CAPEX of the return flow heat pump (€/unit power), default is 0.
 
 
@@ -43,31 +43,31 @@ parameters:
   heat_to: null
   electricity_from: null
 
-  capacity_existing: null
-  capacity_invest_min: null
-  capacity_invest_max: null
-  el_for_pumping: null
-  variable_opex: 0
-  fixed_opex: 0
+  power: null
+  power_lb: null
+  power_ub: null
+  electricity_for_pumping: null
+  opex_variable: 0
+  opex_fixed: 0
   capex: 0
-  _capacity: null
-  _existing_capacity_present: null
+  _power: null
+  _existing_power_present: null
   _invest: null
   _conversion: null
   _inputs: null
 
   heat_exchanger_ratio_to_dh: null
   heat_exchanger_ratio_to_return_flow: null
-  heat_exchanger_variable_opex: 0
+  heat_exchanger_opex_variable: 0
 
   enable_return_flow_hp: null
-  return_flow_hp_existing_capcity: null
-  return_flow_hp_min_capacity_to_invest: null
-  return_flow_hp_max_capacity_to_invest: null
+  return_flow_hp_power: null
+  return_flow_hp_power_lb: null
+  return_flow_hp_power_ub: null
   return_flow_hp_cop: null
   return_flow_hp_cop_min1: null
-  return_flow_hp_variable_opex: 0
-  return_flow_hp_fixed_opex: 0
+  return_flow_hp_opex_variable: 0
+  return_flow_hp_opex_fixed: 0
   return_flow_hp_capex: 0
 
 
@@ -79,22 +79,22 @@ components:
     inputs: <_inputs> 
     outputs: {heat: <self>.node_gt_heat_out}
     conversion: <_conversion> 
-    marginal_cost:  <variable_opex> per out:heat 
-    capacity: <_capacity> out:heat 
+    marginal_cost:  <opex_variable> per out:heat 
+    capacity: <_power> out:heat 
 
-  existing_capacity:
+  existing_power:
     type: Decision
-    enabled: <_existing_capacity_present>
+    enabled: <_existing_power_present>
     mode: fixed
-    fixed_value: <capacity_existing>
-    cost: <fixed_opex>
+    fixed_value: <power>
+    cost: <opex_fixed>
 
   invest_decision:
     type: Decision
     enabled: <_invest>
-    lb: <capacity_invest_min>
-    ub: <capacity_invest_max>
-    cost: <capex> + <fixed_opex>
+    lb: <power_lb>
+    ub: <power_ub>
+    cost: <capex> + <opex_fixed>
 
   # heat exchanger
   gt_dh_heat_exchanger:
@@ -102,23 +102,23 @@ components:
     inputs: {heat: <self>.node_gt_heat_out}
     outputs: {heat: <self>.node_gt_supply, heat_gt_return_flow: <self>.node_gt_return}
     conversion: 1 heat -> <heat_exchanger_ratio_to_dh> heat + <heat_exchanger_ratio_to_return_flow> heat_gt_return_flow
-    marginal_cost: <heat_exchanger_variable_opex> per out:heat
-    capacity: <_capacity> in:heat
+    marginal_cost: <heat_exchanger_opex_variable> per out:heat
+    capacity: <_power> in:heat
  
   # return flow hp
   return_flow_hp:
     enabled: <enable_return_flow_hp>
     type: HeatPump
-    p_nom_existing: <return_flow_hp_existing_capcity>
-    p_nom_invest_min: <return_flow_hp_min_capacity_to_invest> 
-    p_nom_invest_max: <return_flow_hp_max_capacity_to_invest> 
+    power: <return_flow_hp_power>
+    power_lb: <return_flow_hp_power_lb> 
+    power_ub: <return_flow_hp_power_ub> 
     electricity_from: <electricity_from>
     heat_from: <self>.node_gt_return 
     heat_to: <self>.node_gt_supply 
     cop: <return_flow_hp_cop> 
     cop_min_1: <return_flow_hp_cop_min1>  
-    variable_opex: <return_flow_hp_variable_opex>
-    fixed_opex: <return_flow_hp_fixed_opex> 
+    opex_variable: <return_flow_hp_opex_variable>
+    opex_fixed: <return_flow_hp_opex_fixed> 
     capex: <return_flow_hp_capex>
     input_heat_carrier_name: heat_gt_return_flow 
 
@@ -169,37 +169,37 @@ components:
 functions:
   validate: |
     # Prepare some helper variables to make the code afterwards more readable.
-    capacity_existing = this.get("capacity_existing")
-    capacity_invest_min = this.get("capacity_invest_min")
-    capacity_invest_max = this.get("capacity_invest_max")
-    el_for_pumping = this.get("el_for_pumping")
+    power = this.get("power")
+    power_lb = this.get("power_lb")
+    power_ub = this.get("power_ub")
+    el_for_pumping = this.get("electricity_for_pumping")
     # ratio_to_dh = this.get("heat_exchanger_ratio_to_dh")
     # ratio_to_return_flow = this.get("heat_exchanger_ratio_to_return_flow")
 
-    # Check if `capacity_existing`, `capacity_invest_min`, and `capacity_invest_max` are nothing or numbers and non-negative.
-    @check isnothing(capacity_existing) || (capacity_existing isa Number && capacity_existing >= 0)
-    @check isnothing(capacity_invest_min) || (capacity_invest_min isa Number && capacity_invest_min >= 0)
-    @check isnothing(capacity_invest_max) || (capacity_invest_max isa Number && capacity_invest_max >= 0)
+    # Check if `power`, `power_lb`, and `power_ub` are nothing or numbers and non-negative.
+    @check isnothing(power) || (power isa Number && power >= 0)
+    @check isnothing(power_lb) || (power_lb isa Number && power_lb >= 0)
+    @check isnothing(power_ub) || (power_ub isa Number && power_ub >= 0)
 
     # Check that not all three p_nom values are 0
-    sum_value = (capacity_existing === nothing ? 0 : capacity_existing) + 
-                (capacity_invest_min === nothing ? 0 : capacity_invest_min) + 
-                (capacity_invest_max === nothing ? 0 : capacity_invest_max)
+    sum_value = (power === nothing ? 0 : power) + 
+                (power_lb === nothing ? 0 : power_lb) + 
+                (power_ub === nothing ? 0 : power_ub)
     @check (sum_value > 0)
 
     # Check that not all three p_nom values are `nothing`
-    @check (capacity_existing !== nothing || capacity_invest_min !== nothing || capacity_invest_max !== nothing)
+    @check (power !== nothing || power_lb !== nothing || power_ub !== nothing)
 
-    # Check if `capacity_invest_min` and `capacity_invest_max` are both `nothing` or a number and `capacity_invest_max` >= `capacity_invest_min`
-    @check (isnothing(capacity_invest_min) && isnothing(capacity_invest_max)) || (capacity_invest_min isa Number && capacity_invest_max isa Number && capacity_invest_max >= capacity_invest_min)
+    # Check if `power_lb` and `power_ub` are both `nothing` or a number and `power_ub` >= `power_lb`
+    @check (isnothing(power_lb) && isnothing(power_ub)) || (power_lb isa Number && power_ub isa Number && power_ub >= power_lb)
 
     # Check if the `Node` parameters are `String`s.
     @check this.get("electricity_from") isa String
     @check this.get("heat_to") isa String
 
-    # Check if `variable_opex`, `fixed_opex`, `capex` are numbers and non-negative.
-    @check (this.get("variable_opex") isa Number && this.get("variable_opex") >= 0)
-    @check (this.get("fixed_opex") isa Number && this.get("fixed_opex") >= 0)
+    # Check if `opex_variable`, `opex_fixed`, `capex` are numbers and non-negative.
+    @check (this.get("opex_variable") isa Number && this.get("opex_variable") >= 0)
+    @check (this.get("opex_fixed") isa Number && this.get("opex_fixed") >= 0)
     @check (this.get("capex") isa Number && this.get("capex") >= 0)
 
     # check on el for pumping is either nothing or a number and not negative
@@ -211,34 +211,34 @@ functions:
 
   prepare: |
     # Prepare some helper variables to make the code afterwards more readable.
-    capacity_existing = this.get("capacity_existing")
-    capacity_invest_min = this.get("capacity_invest_min")
-    capacity_invest_max = this.get("capacity_invest_max")
+    power = this.get("power")
+    power_lb = this.get("power_lb")
+    power_ub = this.get("power_ub")
     elec_from = this.get("electricity_from")
-    el_for_pumping = this.get("el_for_pumping")
+    el_for_pumping = this.get("electricity_for_pumping")
     
     # Determine if investment should be enabled, and set the parameter (used to enable `invest_decision`).
-    invest = !isnothing(capacity_invest_max) && 
-             !isnothing(capacity_invest_min) &&
-             (capacity_invest_max + capacity_invest_min) > 0 && 
-             capacity_invest_max >= capacity_invest_min
+    invest = !isnothing(power_ub) && 
+             !isnothing(power_lb) &&
+             (power_ub + power_lb) > 0 && 
+             power_ub >= power_lb
     this.set("_invest", invest)
 
-    # Determine if there is an existing installed capacity, (used to enable existing_capacity)
-    existing_capacity_greater_than_zero = !isnothing(capacity_existing) && capacity_existing > 0
-    this.set("_existing_capacity_present", existing_capacity_greater_than_zero)
+    # Determine if there is an existing installed capacity, (used to enable existing_power)
+    existing_power_greater_than_zero = !isnothing(power) && power > 0
+    this.set("_existing_power_present", existing_power_greater_than_zero)
 
     myself = this.get("self")
 
-    if invest && existing_capacity_greater_than_zero
-        # Set the capacity to the size of existing_capacity plus the invest_decision variable.
-        this.set("_capacity", "$(myself).invest_decision:value + $(myself).existing_capacity:value")
+    if invest && existing_power_greater_than_zero
+        # Set the capacity to the size of existing_power plus the invest_decision variable.
+        this.set("_power", "$(myself).invest_decision:value + $(myself).existing_power:value")
     elseif invest
         # Set the capacity to the size of the invest_decision variable.
-        this.set("_capacity", "$(myself).invest_decision:value")
+        this.set("_power", "$(myself).invest_decision:value")
     else
-        # Set the capacity to the  size of the existing_capacity variable. 
-        this.set("_capacity", "$(myself).existing_capacity:value")
+        # Set the capacity to the  size of the existing_power variable. 
+        this.set("_power", "$(myself).existing_power:value")
     end
 
     # Handle the optional `el_for_pumping` parameter.
