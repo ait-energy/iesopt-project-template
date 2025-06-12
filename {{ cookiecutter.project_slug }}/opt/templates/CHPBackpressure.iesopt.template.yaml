@@ -1,9 +1,9 @@
 # # Custom Combined heat and power unit
 
-# A custom combinde haeat and power unit that consumes a defined fuel and produces heat and electricity.
+# A custom combined haeat and power unit that consumes a defined fuel and produces heat and electricity.
 # The unit can either have a fixed  capacity, the capacity can be determined by an investment decision,
-# or have an existing capacity with additional possibility for investment.
-# Variable OPEX, fixed OPEX, and CAPEX can also be defined if desired.
+# or have an existing capacity with additional possibility for investment. Variable OPEX, fixed OPEX, 
+# and CAPEX can also be defined if desired.
 
 # ## Parameters
 # - `thermal_power`: The thermal capacity of the CHP that is already installed (can be 0).
